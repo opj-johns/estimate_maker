@@ -1,4 +1,9 @@
-import 'dart:io';
+// import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
+import 'package:universal_html/html.dart' as html;
+import 'package:universal_io/io.dart';
 
 import 'package:docx_creator/docx_creator.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,54 +31,88 @@ class ExportService {
   static const String _darkText = '111827';
   static const String _mutedText = '6B7280';
 
+  static void _downloadFileWeb(
+  Uint8List bytes,
+  String fileName,
+) {
+  final blob = html.Blob([bytes]);
+
+  final url =
+      html.Url.createObjectUrlFromBlob(blob);
+
+        html.AnchorElement(href: url)
+        ..setAttribute(
+          'download',
+          fileName,
+        )
+        ..click();
+
+  html.Url.revokeObjectUrl(url);
+}
+
   // ───────────────────────────────────────────────────────────
   // Public Export Method
   // ───────────────────────────────────────────────────────────
 
-  static Future<bool> exportEstimate({
-    required List<EstimateEntry> entries,
-    required double grossTotal,
-    required String customerName,
-    String? customerPhone,
-    String? projectLocation,
-  }) async {
-    try {
-      final doc = _buildDocument(
-        entries: entries,
-        grossTotal: grossTotal,
-        customerName: customerName,
-        customerPhone: customerPhone,
-        projectLocation: projectLocation,
-      );
+ static Future<bool> exportEstimate({
+  required List<EstimateEntry> entries,
+  required double grossTotal,
+  required String customerName,
+  String? customerPhone,
+  String? projectLocation,
+}) async {
+  try {
+    final doc = _buildDocument(
+      entries: entries,
+      grossTotal: grossTotal,
+      customerName: customerName,
+      customerPhone: customerPhone,
+      projectLocation: projectLocation,
+    );
 
-      final bytes = DocxExporter().exportToBytes(doc);
+    final bytes = await DocxExporter().exportToBytes(doc);
 
-      final dir = await getTemporaryDirectory();
+    final fileName =
+        'estimate_${_timestamp()}.docx';
 
-      final path =
-          '${dir.path}/estimate_${_timestamp()}.docx';
-
-      await File(path).writeAsBytes(await bytes);
-
-      await SharePlus.instance.share(
-        ShareParams(
-          files: [
-            XFile(
-              path,
-              mimeType:
-                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            ),
-          ],
-          subject: 'Estimate from $_companyName',
-          text: 'Please find your estimate attached.',
-        ),
-      );
-      
+    // WEB EXPORT
+    if (kIsWeb) {
+      _downloadFileWeb(bytes, fileName);
       return true;
-    } catch (e) {
-      return false;
     }
+
+    // MOBILE/DESKTOP EXPORT
+    final dir = await getTemporaryDirectory();
+
+    final path = '${dir.path}/$fileName';
+
+    final file = File(path);
+
+    
+
+    await file.writeAsBytes(bytes);
+
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [
+          XFile(
+            path,
+            mimeType:
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          ),
+        ],
+        subject: 'Estimate from $_companyName',
+        text: 'Please find your estimate attached.',
+      ),
+    );
+
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
   }
+}
+  
 
   // ───────────────────────────────────────────────────────────
   // Document Builder
