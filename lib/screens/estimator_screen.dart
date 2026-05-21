@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:estimate_maker/Data/tiles.dart';
 import 'package:estimate_maker/model/estimate_entry.dart';
 import 'package:estimate_maker/model/tile.dart';
@@ -904,17 +902,12 @@ class _AddEntryButton extends StatelessWidget {
           // Show a brief confirmation snackbar
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: 
-              Text('${provider.selectedTile!.name} added to estimate' , 
-              style: TextStyle(
-                color: Color(0xFF1A1A1A),
-              ),),
+              content: Text('${provider.selectedTile!.name} added to estimate',),
               duration: const Duration(seconds: 2),
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: .circular(8),
               ),
-              backgroundColor: Color.from(alpha: 0, red: 0.024, green: 0.682, blue: 0.345),
             )
           );
         }, 
