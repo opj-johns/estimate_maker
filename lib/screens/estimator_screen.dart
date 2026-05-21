@@ -33,7 +33,8 @@ class EstimatorScreen extends StatelessWidget {
             ),),
         ],
       ),
-      bottomNavigationBar: _GrossTotalBar(),
+      // bottomNavigationBar: _GrossTotalBar(),
+      
     );
   }
 
@@ -67,6 +68,8 @@ class EstimatorScreen extends StatelessWidget {
           },
         )
       ],
+      bottom: PreferredSize(preferredSize: const Size.fromHeight(70),
+       child: _GrossTotalBar(),),
     );
   }
 }
@@ -87,6 +90,8 @@ class _ExportButtonState extends State<_ExportButton> {
     setState(() => _loading = true);
 
     final success = await ExportService.exportEstimate(
+      customerName: '________________________',
+      customerPhone: '_______________________',
       entries: widget.provider.entries,
       grossTotal: widget.provider.grossTotal,
     );
