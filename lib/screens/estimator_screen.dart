@@ -2,6 +2,7 @@ import 'package:estimate_maker/Data/tiles.dart';
 import 'package:estimate_maker/model/estimate_entry.dart';
 import 'package:estimate_maker/model/tile.dart';
 import 'package:estimate_maker/service/estimate_provider.dart';
+import 'package:estimate_maker/service/export_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +52,7 @@ class EstimatorScreen extends StatelessWidget {
             return Row(
             children: [
               // Export button
-              // _ExportButton(provider: provider),
+              _ExportButton(provider: provider),
               // Clear all button
               TextButton.icon(
                 onPressed: () => _confirmClearAll(context, provider),
@@ -69,6 +70,60 @@ class EstimatorScreen extends StatelessWidget {
     );
   }
 }
+
+class _ExportButton extends StatefulWidget {
+  final EstimateProvider provider;
+
+  const _ExportButton({required this.provider});
+
+  @override
+  State<_ExportButton> createState() => _ExportButtonState();
+}
+
+class _ExportButtonState extends State<_ExportButton> {
+  bool _loading = false;
+
+  Future<void> _handleExport() async {
+    setState(() => _loading = true);
+
+    final success = await ExportService.exportEstimate(
+      entries: widget.provider.entries,
+      grossTotal: widget.provider.grossTotal,
+    );
+
+    if (!mounted) return;
+    setState(() => _loading = false);
+
+    if (!success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Export failed. Please try again.'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Theme.of(context).colorScheme.error,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: _loading ? null : _handleExport,
+      icon: _loading
+          ? const SizedBox(
+              width: 14,
+              height: 14,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : const Icon(Icons.upload_file_outlined, size: 18),
+      label: Text(_loading ? 'Exporting...' : 'Export'),
+    );
+  }
+}
+
 
 
 void _confirmClearAll(BuildContext context, EstimateProvider provider){
