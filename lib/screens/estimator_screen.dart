@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class EstimatorScreen extends StatelessWidget {
     const EstimatorScreen({super.key});
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),

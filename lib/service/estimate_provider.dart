@@ -38,8 +38,20 @@ class EstimateProvider extends ChangeNotifier{
   /// return null if inputs are incomplete
   int? get previewBoxes {
     if (!canAddEntry) return null;
-    final raw = (_roomArea! / 10) / _selectedTile!.squareMeter!;
-    return raw.ceil();
+
+    if(_decimalSection(_roomArea! / 10) >= 0.45) {
+      final raw = (_roomArea! / 10).ceil() / _selectedTile!.squareMeter!; 
+      return raw.truncate();
+    }
+    final raw = (_roomArea! / 10) / _selectedTile!.squareMeter!; 
+    return raw.truncate();
+  }
+
+  // if _decimalSection >= 0.45,ceil it, else
+
+  double _decimalSection(double num){
+    var deci = num - num.truncate();
+    return double.parse(deci.toStringAsFixed(2));
   }
 
   /// Entry total preview before adding
