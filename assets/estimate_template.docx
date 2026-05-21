@@ -1,0 +1,10 @@
+{company_name}
+{date}
+
+TILE ESTIMATE
+
+{#entries}
+  {tile_name} | {finish} | {room_area} m² | {boxes} boxes | GH₵ {entry_total}
+{/entries}
+
+Gross Total: GH₵ {gross_total}

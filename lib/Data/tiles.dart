@@ -1,0 +1,25 @@
+import 'package:estimate_maker/model/tile.dart';
+
+const List<Tile> kTiles = [
+  Tile(id: 1,  name: 'Unpolish Colours',           finish: 'Unpolish',     price: 140,  squareMeter: 1.92),
+  Tile(id: 2,  name: 'Unpolish Black',              finish: 'Unpolish',     price: 143,  squareMeter: 1.92),
+  Tile(id: 3,  name: 'Unpolish 30x30',  size:'30x30', finish: 'Unpolish',  price: 144,  squareMeter: null),
+  Tile(id: 4,  name: 'Unpolish 25x40',  size:'25x40', finish: 'Unpolish',  price: 116,  squareMeter: 1.5),
+  Tile(id: 5,  name: 'Rustic 40x40',    size:'40x40', finish: 'Rustic',    price: 168,  squareMeter: 1.92),
+  Tile(id: 6,  name: 'Polish 40x40',    size:'40x40', finish: 'Polish',    price: 171,  squareMeter: 1.92),
+  Tile(id: 7,  name: 'Anti-slip 40x40', size:'40x40', finish: 'Anti-slip', price: 98,   squareMeter: 1.92),
+  Tile(id: 8,  name: 'Black 40x40',     size:'40x40', finish: 'Unpolish',  price: 171,  squareMeter: 1.92),
+  Tile(id: 9,  name: 'Polish 60x60',    size:'60x60', finish: 'Polish',    price: 200,  squareMeter: 1.44),
+  Tile(id: 10, name: 'Black x Gold 60x60', size:'60x60', finish: 'Polish', price: 220,  squareMeter: 1.44),
+  Tile(id: 11, name: 'Rustic 60x60',    size:'60x60', finish: 'Rustic',    price: 191,  squareMeter: 1.44),
+  Tile(id: 12, name: 'Rustic 30x60',    size:'30x60', finish: 'Rustic',    price: 164,  squareMeter: 1.44),
+  Tile(id: 13, name: 'Facial 30x60',    size:'30x60', finish: 'Facial',    price: 164,  squareMeter: 1.44),
+  Tile(id: 14, name: 'Wall 30x60',      size:'30x60', finish: 'Wall',      price: 158,  squareMeter: 1.44),
+  Tile(id: 15, name: 'Polish 60x120',   size:'60x120', finish: 'Polish',   price: 225,  squareMeter: 1.52),
+  Tile(id: 16, name: 'Rustic 60x120',   size:'60x120', finish: 'Rustic',   price: null, squareMeter: 1.52),
+  Tile(id: 17, name: 'Black Design 60x120', size:'60x120', finish: 'Black Design', price: null, squareMeter: 1.52),
+  Tile(id: 18, name: 'Rustic Pacboy 20x120', size:'20x120', finish: 'Rustic', price: 189, squareMeter: 1.52),
+  Tile(id: 19, name: 'Terracotta 30x30', size:'30x30', finish: 'Terracotta', price: 124, squareMeter: 1.0),
+  Tile(id: 20, name: 'White with Gold Effect 60x60', size:'60x60', finish: 'Polish', price: 210, squareMeter: 1.44),
+  Tile(id: 21, name: 'Unpolish NM44008', size:'40x40', finish: 'Unpolish', price: 141, squareMeter: 1.92),
+];
